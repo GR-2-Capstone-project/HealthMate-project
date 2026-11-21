@@ -1,16 +1,16 @@
 
-// 1. Load environment variables
 require('dotenv').config();
 
-// 2. Import required packages
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-// 3. Create the Express application
+// Import our MongoDB connection function
+const connectDB = require('./config/db');
+
 const app = express();
 
-// 4. Configure application middleware
+// Security and application middleware
 app.use(helmet());
 
 app.use(cors({
@@ -19,7 +19,7 @@ app.use(cors({
 
 app.use(express.json({ limit: '10kb' }));
 
-// 5. Create a health-check endpoint
+// Health-check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -28,10 +28,22 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 6. Configure the server port
+// Server port
 const PORT = process.env.PORT || 5000;
 
-// 7. Start the server
-app.listen(PORT, () => {
-  console.log(`HealthMate API is listening on port ${PORT}`);
-});
+// Connect to MongoDB before starting the server
+const startServer = async () => {
+  try {
+    await connectDB();
+
+    app.listen(PORT, () => {
+      console.log(`HealthMate API is listening on port ${PORT}`);
+    });
+
+  } catch (error) {
+    console.error('Unable to start HealthMate API:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
