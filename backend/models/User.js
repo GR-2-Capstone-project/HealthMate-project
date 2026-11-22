@@ -1,6 +1,4 @@
-
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 
 // Define the User schema
 const userSchema = new mongoose.Schema(
@@ -27,7 +25,7 @@ const userSchema = new mongoose.Schema(
       ]
     },
 
-    // User's password
+    // User's password (stored as a bcrypt hash)
     password: {
       type: String,
       required: [true, 'Password is required'],
@@ -36,32 +34,9 @@ const userSchema = new mongoose.Schema(
     }
   },
   {
-  timestamps: true,
-
-  // Remove sensitive information when converting a user to JSON
-  toJSON: {
-    transform: (doc, ret) => {
-      delete ret.password;
-      delete ret.__v;
-      return ret;
-    }
+    timestamps: true
   }
- }
 );
-
-// Hash password before saving a new or modified password
-userSchema.pre('save', async function () {
-  if (!this.isModified('password')) {
-    return;
-  }
-
-  this.password = await bcrypt.hash(this.password, 12);
-});
-
-// Compare a login password with the stored password hash
-userSchema.methods.comparePassword = function (candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);
-};
 
 // Create and export the User model
 const User = mongoose.model('User', userSchema);
