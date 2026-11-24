@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema(
   {
     // User's full name
-    fullName: {
+    name: {
       type: String,
-      required: [true, 'Full name is required'],
+      required: true,
       trim: true,
       minlength: 2,
       maxlength: 100
@@ -15,21 +15,17 @@ const userSchema = new mongoose.Schema(
     // User's email address
     email: {
       type: String,
-      required: [true, 'Email address is required'],
+      required: true,
       unique: true,
       lowercase: true,
-      trim: true,
-      match: [
-        /^\S+@\S+\.\S+$/,
-        'Please provide a valid email address'
-      ]
+      trim: true
     },
 
     // User's password (stored as a bcrypt hash)
     password: {
       type: String,
-      required: [true, 'Password is required'],
-      minlength: [8, 'Password must contain at least 8 characters'],
+      required: true,
+      minlength: 8,
       select: false
     }
   },

@@ -6,7 +6,7 @@ const MedicationLog = require('../models/MedicationLog');
 
 const {
   createMedicationLogSchema
-} = require('../validators/medicationLogValidator');
+} = require('../schemas/medication_log_schemas');
 
 
 // RECORD MEDICATION ACTIVITY

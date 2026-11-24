@@ -8,7 +8,7 @@ const MedicationSchedule = require('../models/MedicationSchedule');
 const {
   createScheduleSchema,
   updateScheduleSchema
-} = require('../validators/scheduleValidator');
+} = require('../schemas/schedule_schemas');
 
 
 // CREATE MEDICATION SCHEDULE

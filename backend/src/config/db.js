@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 // Function responsible for connecting to MongoDB Atlas
@@ -12,15 +11,13 @@ const connectDB = async () => {
     }
 
     // Establish the MongoDB connection
-    await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 10000
-    });
+    await mongoose.connect(mongoURI);
 
     console.log(`MongoDB connected to database: ${mongoose.connection.name}`);
 
   } catch (error) {
     console.error('MongoDB connection failed:', error.message);
-    throw error;
+    process.exit(1);
   }
 };
 

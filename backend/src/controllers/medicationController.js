@@ -5,7 +5,7 @@ const Medication = require('../models/Medication');
 const {
   createMedicationSchema,
   updateMedicationSchema
-} = require('../validators/medicationValidator');
+} = require('../schemas/medication_schemas');
 
 
 // CREATE MEDICATION
