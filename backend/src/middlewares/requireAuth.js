@@ -10,7 +10,6 @@ const requireAuth = async (req, res, next) => {
         if(!user){
             return res.status(404).json({message: "User does not exist"});
         }
-        req.user = user;
         next();
     } catch (error) {
         res.status(401).json({error: "Invalid credetials"});

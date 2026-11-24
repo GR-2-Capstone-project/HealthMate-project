@@ -31,8 +31,7 @@ const registerUser = async(req, res, next) => {
         const resUser = {
             _id: user.id,
             email: user.email,
-            name: user.name,
-            password: user.password
+            name: user.name
         };
 
         return res.status(201).json({
