@@ -1,6 +1,7 @@
 const {
     createUserSchema,
-    userLoginSchema
+    userLoginSchema,
+    updateTimezoneSchema
 } = require("../schemas/user_schemas");
 
 const validateNewUser = (req, res, next) => {

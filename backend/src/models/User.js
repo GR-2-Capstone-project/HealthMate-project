@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 8,
       select: false
+    },
+
+    timezone: {
+      type: String,
+      default: 'Africa/Lagos'
     }
   },
   {
