@@ -1,25 +1,31 @@
 const Joi = require("joi");
-const { normalizeTimezone } = require('../utils/timezone');
+const isValidTimeZone = require("../utils/timezone");
 
-const timezoneField = Joi.string()
-  .trim()
-  .custom((value, helpers) => {
-    const normalized = normalizeTimezone(value);
-    if (!normalized) return helpers.error('timezone.invalid');
-    return normalized;
-  })
-  .messages({
-    'timezone.invalid':
-      '{{#label}} must be a valid IANA timezone, for example "Africa/Lagos"',
-  });
-
+// Validation rules for user registration
 const createUserSchema = Joi.object({
-    name: Joi.string().trim().min(2).required(),
-    email: Joi.string().trim().lowercase().email().required(),
+    name: Joi.string().min(2).required(),
+
+    email: Joi.string().lowercase().email().required(),
+
     password: Joi.string().min(8).required(),
-    timezone: timezoneField.optional().allow('', null),
+
+    // Timezone is optional; the User model supplies the default
+    timeZone: Joi.string()
+        .trim()
+        .custom((value, helpers) => {
+            if (!isValidTimeZone(value)) {
+                return helpers.error("any.invalid");
+            }
+
+            return value;
+        })
+        .optional()
+        .messages({
+            "any.invalid": "Please provide a valid IANA timezone identifier"
+        })
 });
 
+// Validation rules for user login
 const userLoginSchema = Joi.object({
     email: Joi.string().lowercase().email().required(),
     password: Joi.string().min(8).required()
@@ -31,6 +37,5 @@ const updateTimezoneSchema = Joi.object({
 
 module.exports = {
     createUserSchema,
-    userLoginSchema,
-    updateTimezoneSchema
-}
+    userLoginSchema
+};

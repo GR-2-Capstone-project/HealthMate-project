@@ -5,7 +5,7 @@ const passwordHash = require("../utils/password_hash");
 
 const registerUser = async(req, res, next) => {
     try {
-        const {name, email, password} = req.body;
+        const {name, email, password, timeZone} = req.body;
 
         const existingUser = await User.findOne({email: email});
         if(existingUser){
@@ -15,10 +15,11 @@ const registerUser = async(req, res, next) => {
         const hashed = await passwordHash(password);
 
         const user = new User({
-            name: name,
-            email: email,
-            password: hashed
-        }) ;
+          name: name,
+          email: email,
+          password: hashed,
+          timeZone: timeZone
+        });
 
         await user.save();
 
@@ -29,9 +30,10 @@ const registerUser = async(req, res, next) => {
         );
 
         const resUser = {
-            _id: user.id,
-            email: user.email,
-            name: user.name
+           _id: user.id,
+           email: user.email,
+           name: user.name,
+           timeZone: user.timeZone
         };
 
         return res.status(201).json({
@@ -64,7 +66,8 @@ const loginUser = async (req, res, next) => {
         const resUser = {
             _id: user.id,
             email: user.email,
-            name: user.name
+            name: user.name,
+            timeZone: user.timeZone
         }
 
         return res.status(200).json({message: "User logged in", user: resUser, token})
@@ -85,7 +88,8 @@ const dashboard = async (req, res, next) => {
         res.status(200).json({
             id: user._id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            timeZone: user.timeZone
         })
     } catch (error) {
         next(error)
