@@ -7,15 +7,6 @@ const app = require('./src/app');
 // Import MongoDB connection function
 const connectDB = require('./src/config/db');
 
-// Health-check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    message: 'HealthMate API is running',
-    timestamp: new Date().toISOString()
-  });
-});
-
 // Server port
 const PORT = process.env.PORT || 5000;
 

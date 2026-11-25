@@ -26,12 +26,20 @@ app.use(express.json({ limit: "10kb" }));
 // Application logger
 app.use(logger);
 
+// Public health-check endpoint
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    message: 'HealthMate API is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Public authentication endpoints
 app.use("/auth", userRoutes);
 
 // Protected medication and dashboard endpoints
 app.use("/api", createApiRoutes(requireAuth));
-
 // Central error handler (must remain last)
 app.use(errorHandler);
 
