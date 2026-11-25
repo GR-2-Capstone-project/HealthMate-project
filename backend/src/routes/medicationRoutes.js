@@ -8,15 +8,11 @@ const {
 } = require('../controllers/medicationController');
 
 // Create medication routes
-const createMedicationRoutes = (authenticate) => {
-  if (typeof authenticate !== 'function') {
-    throw new TypeError('Authentication middleware must be provided');
-  }
+const createMedicationRoutes = () => {
+
 
   const router = express.Router();
 
-  // Protect all medication endpoints
-  router.use(authenticate);
 
   // Create a medication
   router.post('/', createMedication);

@@ -5,15 +5,11 @@ const {
   getMedicationLogs
 } = require('../controllers/medicationLogController');
 
-const createMedicationLogRoutes = (authenticate) => {
-  if (typeof authenticate !== 'function') {
-    throw new TypeError('Authentication middleware must be provided');
-  }
+const createMedicationLogRoutes = () => {
+
 
   const router = express.Router();
 
-  // Protect all medication-log endpoints
-  router.use(authenticate);
 
   // Record a medication activity
   router.post(

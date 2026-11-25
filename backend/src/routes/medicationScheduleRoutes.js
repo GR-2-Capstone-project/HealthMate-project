@@ -7,15 +7,11 @@ const {
   deleteMedicationSchedule
 } = require('../controllers/medicationScheduleController');
 
-const createMedicationScheduleRoutes = (authenticate) => {
-  if (typeof authenticate !== 'function') {
-    throw new TypeError('Authentication middleware must be provided');
-  }
+const createMedicationScheduleRoutes = () => {
+
 
   const router = express.Router();
 
-  // Protect all medication schedule endpoints
-  router.use(authenticate);
 
   // Create and retrieve schedules for a medication
   router.post(

@@ -16,8 +16,9 @@ const app = express();
 // Security configuration
 app.use(helmet());
 
+// Configure Cross-Origin Resource Sharing
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5000"
+  origin: process.env.CLIENT_URL || "http://localhost:5500"
 }));
 
 // Parse incoming JSON requests

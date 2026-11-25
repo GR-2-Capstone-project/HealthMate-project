@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const isValidTimeZone = require('../utils/timezone');
 
 // Define the User schema
 const userSchema = new mongoose.Schema(
@@ -27,6 +28,17 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 8,
       select: false
+    },
+
+    // User's preferred IANA timezone
+    timeZone: {
+      type: String,
+      default: 'Africa/Lagos',
+      trim: true,
+      validate: {
+        validator: isValidTimeZone,
+        message: 'Please provide a valid IANA timezone identifier'
+      }
     }
   },
   {

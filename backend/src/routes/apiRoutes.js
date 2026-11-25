@@ -14,20 +14,23 @@ const createApiRoutes = (authenticate) => {
 
   const router = express.Router();
 
+  // Authenticate each protected API request once
+  router.use(authenticate);
+
   // Medication management
-  router.use('/medications', createMedicationRoutes(authenticate));
+  router.use('/medications', createMedicationRoutes());
 
   // Medication schedule management
-  router.use(createMedicationScheduleRoutes(authenticate));
+  router.use(createMedicationScheduleRoutes());
 
   // Medication activity history
-  router.use(createMedicationLogRoutes(authenticate));
+  router.use(createMedicationLogRoutes());
 
   // Reminder management
-  router.use(createReminderRoutes(authenticate));
+  router.use(createReminderRoutes());
 
   // Dashboard
-  router.use(createDashboardRoutes(authenticate));
+  router.use(createDashboardRoutes());
 
   return router;
 };

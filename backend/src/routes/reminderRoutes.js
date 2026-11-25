@@ -5,15 +5,11 @@ const {
   getScheduleReminders
 } = require('../controllers/reminderController');
 
-const createReminderRoutes = (authenticate) => {
-  if (typeof authenticate !== 'function') {
-    throw new TypeError('Authentication middleware must be provided');
-  }
+const createReminderRoutes = () => {
+
 
   const router = express.Router();
 
-  // Protect all reminder endpoints
-  router.use(authenticate);
 
   // Retrieve the user's upcoming reminders
   router.get('/reminders/upcoming', getUpcomingReminders);
