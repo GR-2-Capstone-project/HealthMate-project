@@ -18,7 +18,7 @@ app.use(helmet());
 
 // Configure Cross-Origin Resource Sharing
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5500"
+  origin: process.env.CLIENT_URL || "http://127.0.0.1:4173"
 }));
 
 // Parse incoming JSON requests
