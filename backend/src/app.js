@@ -16,7 +16,8 @@ const app = express();
 const allowedOrigins = [
   process.env.CLIENT_URL,
   "http://127.0.0.1:4173",
-  "http://10.67.52.81:5500"
+  "http://10.67.52.81:5500",
+  "https://joesef387.github.io"
 ]
 
 // Security configuration
