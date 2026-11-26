@@ -13,12 +13,19 @@ const errorHandler = require("./middlewares/error_handler");
 
 const app = express();
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "http://127.0.0.1:4173",
+  "http://10.67.52.81:5500"
+]
+
 // Security configuration
 app.use(helmet());
 
 // Configure Cross-Origin Resource Sharing
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://127.0.0.1:4173" || "http://10.67.52.81:5500"
+  origin: allowedOrigins,
+  credentials: true
 }));
 
 // Parse incoming JSON requests
