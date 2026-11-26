@@ -51,11 +51,15 @@ const loginUser = async (req, res, next) => {
         const {email, password} = req.body;
         const user = await User.findOne({email: email}).select('+password');
         if(!user){
-            return res.status(404).json({message: "User does not exist"});
+            console.error(`Login failed: no user found with email ${email}`);
+            return res.status(401).json({message: "Invalid credentials"});
         };
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch) throw new Error('Invalid credentials');
+        if(!isMatch){
+            console.error(`Login failed: wrong password for email ${email}`);
+            return res.status(401).json({message: "Invalid credentials"});
+        }
 
         const token = jwt.sign(
             {userId: user._id, name: user.name},
@@ -79,21 +83,24 @@ const loginUser = async (req, res, next) => {
 
 const dashboard = async (req, res, next) => {
     try {
-        const _id = req.params.id;
-        const user = await User.findOne({_id: _id});
-        if(!user){
-            return res.status(404).json({message: "user not found"})
+        // requireAuth has already loaded the user into req.user
+        const user = req.user;
+
+        // The id in the URL must be the caller's own id.
+        // Anything else (another user's id, or a malformed one) gets the same 404.
+        if (req.params.id !== user.id) {
+            return res.status(404).json({message: "user not found"});
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             id: user._id,
             name: user.name,
             email: user.email,
             timeZone: user.timeZone
-        })
+        });
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
 
 module.exports = {registerUser, loginUser, dashboard};

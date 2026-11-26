@@ -31,9 +31,9 @@ const userLoginSchema = Joi.object({
     password: Joi.string().min(8).required()
 });
 
-const updateTimezoneSchema = Joi.object({
-  timezone: timezoneField.allow('auto').required(),
-});
+//const updateTimezoneSchema = Joi.object({
+  //timezone: timezoneField.allow('auto').required(),
+//});
 
 module.exports = {
     createUserSchema,
